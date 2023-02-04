@@ -22,7 +22,6 @@ router.post("/", async (req: Request, res: Response) => {
 router.get("/", async (req: Request, res: Response) => {
   const categories = await prisma.category.findMany({
     orderBy: { id: "asc" },
-    take: 6,
   });
 
   const points = await prisma.point.findMany({
