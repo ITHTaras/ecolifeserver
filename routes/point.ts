@@ -16,7 +16,8 @@ router.post("/", async (req: Request, res: Response) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
-    const { latitude, longtitude, categories } = req.body;
+    const { latitude, longtitude, categories, image } = req.body;
+    console.log(req.body);
 
     token = req.headers.authorization.split(" ")[1];
     // console.log(token);
@@ -36,6 +37,7 @@ router.post("/", async (req: Request, res: Response) => {
           data: {
             latitude: latitude,
             longtitude: longtitude,
+            image: image,
             isSafe: false,
             user: {
               connect: {
@@ -50,7 +52,15 @@ router.post("/", async (req: Request, res: Response) => {
           },
           include: {
             point_types: true,
-            user: true,
+            user: {
+              select: {
+                id: true,
+                createdAt: true,
+                email: true,
+                name: true,
+                image: true,
+              },
+            },
           },
         });
 
